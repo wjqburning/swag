@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/swag/example/celler/controller"
-	_ "github.com/swaggo/swag/example/celler/docs"
-	"github.com/swaggo/swag/example/celler/httputil"
+	"github.com/wjqburning/swag/example/celler/controller"
+	_ "github.com/wjqburning/swag/example/celler/docs"
+	"github.com/wjqburning/swag/example/celler/httputil"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
