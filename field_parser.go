@@ -261,6 +261,19 @@ func (ps *tagBaseFieldParser) ComplementSchema(schema *spec.Schema) error {
 	return ps.complementSchema(schema, types)
 }
 
+func getGormComment(tag reflect.StructTag) string {
+	gormTag := tag.Get("gorm")
+	if gormTag != "" {
+		parts := strings.Split(gormTag, ";")
+		for _, part := range parts {
+			if strings.HasPrefix(part, "comment:") {
+				return strings.TrimSpace(strings.TrimPrefix(part, "comment:"))
+			}
+		}
+	}
+	return ""
+}
+
 // complementSchema complement schema with field properties
 func (ps *tagBaseFieldParser) complementSchema(schema *spec.Schema, types []string) error {
 	if ps.field.Tag == nil {
@@ -279,6 +292,10 @@ func (ps *tagBaseFieldParser) complementSchema(schema *spec.Schema, types []stri
 		schemaType: types[0],
 		formatType: ps.tag.Get(formatTag),
 		title:      ps.tag.Get(titleTag),
+	}
+
+	if field.title == "" { // 尝试从 gorm tag 中获取 comment 作为字段的 title
+		field.title = getGormComment(ps.tag)
 	}
 
 	if len(types) > 1 && (types[0] == ARRAY || types[0] == OBJECT) {
