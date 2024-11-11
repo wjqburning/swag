@@ -294,6 +294,10 @@ func (ps *tagBaseFieldParser) complementSchema(schema *spec.Schema, types []stri
 		title:      ps.tag.Get(titleTag),
 	}
 
+	if field.title == "" { // 尝试把 comment tag 作为字段的 title
+		field.title = ps.tag.Get("comment")
+	}
+
 	if field.title == "" { // 尝试从 gorm tag 中获取 comment 作为字段的 title
 		field.title = getGormComment(ps.tag)
 	}
