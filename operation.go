@@ -662,6 +662,13 @@ func defineType(schemaType string, value string) (v interface{}, err error) {
 		if err != nil {
 			return nil, fmt.Errorf("enum value %s can't convert to %s err: %s", value, schemaType, err)
 		}
+	case ARRAY:
+		var array []interface{}
+		err = json.Unmarshal([]byte(value), &array)
+		if err != nil {
+			return nil, fmt.Errorf("enum value %s can't convert to %s err: %s", value, schemaType, err)
+		}
+		v = array
 	default:
 		return nil, fmt.Errorf("%s is unsupported type in enum value %s", schemaType, value)
 	}
